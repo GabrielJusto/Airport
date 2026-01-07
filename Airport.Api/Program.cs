@@ -6,7 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AirportDbContext>(options =>
-    options.UseNpgsql(builder.Configuration["ConnectionStrings:DefaultConnection"]));
+    options.UseNpgsql(builder.Configuration["ConnectionStrings:DefaultConnection"], o =>
+        o.UseNetTopologySuite()
+    ));
 
 var app = builder.Build();
 
