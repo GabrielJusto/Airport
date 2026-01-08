@@ -1,4 +1,6 @@
 using Airport.Api.Database;
+using Airport.Api.Repositories;
+using Airport.Api.Services;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +12,12 @@ builder.Services.AddDbContext<AirportDbContext>(options =>
         o.UseNetTopologySuite()
     ));
 
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddScoped<HubInsertService>();
+builder.Services.AddScoped<HubRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -17,7 +25,7 @@ if(app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
-
+app.MapControllers();
 
 app.Run();
 
