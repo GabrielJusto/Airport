@@ -16,4 +16,9 @@ public class HubRepository(AirportDbContext context)
 
         return hub.HubId;
     }
+
+    public async Task<Hub?> GetHubByIdAsync(int id)
+    {
+        return _context.Hubs.FirstOrDefault(h => h.HubId == id);
+    }
 }

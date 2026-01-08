@@ -17,6 +17,8 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddScoped<HubInsertService>();
 builder.Services.AddScoped<HubRepository>();
+builder.Services.AddScoped<TerminalInsertService>();
+builder.Services.AddScoped<TerminalRepository>();
 
 var app = builder.Build();
 
