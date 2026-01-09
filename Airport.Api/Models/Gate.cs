@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,6 +23,7 @@ public class Gate
     public int TerminalId { get; set; }
 
     public virtual Terminal Terminal { get; set; } = null!;
+    public virtual ICollection<GateEvent> GateEvents { get; set; } = new List<GateEvent>();
 
     public Gate() { }
 
