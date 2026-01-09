@@ -2,6 +2,8 @@
 using Airport.Api.Database;
 using Airport.Api.Models;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace Airport.Api.Repositories;
 
 public class HubRepository(AirportDbContext context)
@@ -19,6 +21,6 @@ public class HubRepository(AirportDbContext context)
 
     public async Task<Hub?> GetHubByIdAsync(int id)
     {
-        return _context.Hubs.FirstOrDefault(h => h.HubId == id);
+        return await _context.Hubs.FirstOrDefaultAsync(h => h.HubId == id);
     }
 }

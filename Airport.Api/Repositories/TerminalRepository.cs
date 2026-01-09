@@ -2,6 +2,8 @@
 using Airport.Api.Database;
 using Airport.Api.Models;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace Airport.Api.Repositories;
 
 public class TerminalRepository(AirportDbContext context)
@@ -15,6 +17,11 @@ public class TerminalRepository(AirportDbContext context)
         await _context.SaveChangesAsync();
 
         return terminal.TerminalId;
+    }
+
+    public async Task<Terminal?> GetByTerminalId(int terminalId)
+    {
+        return await _context.Terminals.FirstOrDefaultAsync(t => t.TerminalId == terminalId);
     }
 
 }
