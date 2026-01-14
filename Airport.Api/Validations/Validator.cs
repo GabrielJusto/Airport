@@ -1,4 +1,6 @@
 
+using Airport.Api.Exceptions;
+
 namespace Airport.Api.Validations;
 
 public class Validator(List<IValidation> validations)
@@ -12,6 +14,14 @@ public class Validator(List<IValidation> validations)
     {
         _validations.ForEach(v => Errors.AddRange(v.Validate()));
         return Errors.Count == 0;
+    }
+
+    public void ValidateAndTrhow()
+    {
+        if(!Validate())
+        {
+            throw new ValidationException(Errors);
+        }
     }
 
 

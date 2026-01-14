@@ -5,7 +5,7 @@ using Airport.Api.Repositories;
 
 namespace Airport.Api.Services;
 
-public class GateInsertService(
+public class GateService(
     GateRepository gateRepository,
     TerminalRepository terminalRepository
 )
@@ -21,6 +21,11 @@ public class GateInsertService(
         Gate gate = new(data);
 
         return await _gateRepository.InsertGate(gate);
+    }
+
+    public async Task<Gate?> GetGateById(int gateId)
+    {
+        return await _gateRepository.GetGateById(gateId);
     }
 
 }

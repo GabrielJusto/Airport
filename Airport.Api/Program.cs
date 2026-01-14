@@ -4,13 +4,23 @@ using Airport.Api.Services;
 
 using Microsoft.EntityFrameworkCore;
 
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AirportDbContext>(options =>
-    options.UseNpgsql(builder.Configuration["ConnectionStrings:DefaultConnection"], o =>
-        o.UseNetTopologySuite()
-    ));
+{
+    options.UseNpgsql(
+        builder.Configuration["ConnectionStrings:DefaultConnection"],
+        npgsqlOptions =>
+        {
+            npgsqlOptions.UseNetTopologySuite();
+        }
+    );
+});
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -20,7 +30,9 @@ builder.Services.AddScoped<HubRepository>();
 builder.Services.AddScoped<TerminalInsertService>();
 builder.Services.AddScoped<TerminalRepository>();
 builder.Services.AddScoped<GateRepository>();
-builder.Services.AddScoped<GateInsertService>();
+builder.Services.AddScoped<GateService>();
+builder.Services.AddScoped<GateEventRepository>();
+builder.Services.AddScoped<GateEventService>();
 
 var app = builder.Build();
 

@@ -8,15 +8,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Airport.Tests.Services;
 
-public class GateInsertServiceTests : IDisposable
+public class GateServiceTests : IDisposable
 {
     private readonly AirportDbContext _context;
     private readonly GateRepository _gateRepository;
     private readonly HubRepository _hubRepository;
     private readonly TerminalRepository _terminalRepository;
-    private readonly GateInsertService _gateInsertService;
+    private readonly GateService _gateService;
 
-    public GateInsertServiceTests()
+    public GateServiceTests()
     {
         DbContextOptions<AirportDbContext> options = new DbContextOptionsBuilder<AirportDbContext>()
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
@@ -26,7 +26,7 @@ public class GateInsertServiceTests : IDisposable
         _gateRepository = new GateRepository(_context);
         _hubRepository = new HubRepository(_context);
         _terminalRepository = new TerminalRepository(_context);
-        _gateInsertService = new GateInsertService(_gateRepository, _terminalRepository);
+        _gateService = new GateService(_gateRepository, _terminalRepository);
     }
 
     [Fact]
@@ -56,7 +56,7 @@ public class GateInsertServiceTests : IDisposable
         );
 
         // Act
-        int result = await _gateInsertService.InsertGate(gateDto);
+        int result = await _gateService.InsertGate(gateDto);
 
         // Assert
         Assert.True(result > 0);
@@ -80,7 +80,7 @@ public class GateInsertServiceTests : IDisposable
 
         // Act & Assert
         EntityNotFoundException exception = await Assert.ThrowsAsync<EntityNotFoundException>(
-            () => _gateInsertService.InsertGate(gateDto)
+            () => _gateService.InsertGate(gateDto)
         );
 
         Assert.Equal("Terminal not found!", exception.Message);
@@ -113,7 +113,7 @@ public class GateInsertServiceTests : IDisposable
         );
 
         // Act
-        int gateId = await _gateInsertService.InsertGate(gateDto);
+        int gateId = await _gateService.InsertGate(gateDto);
 
         // Assert
         Gate? savedGate = await _context.Gates.FirstOrDefaultAsync(g => g.GateId == gateId);
@@ -156,8 +156,8 @@ public class GateInsertServiceTests : IDisposable
         );
 
         // Act
-        int gateId1 = await _gateInsertService.InsertGate(gateDto1);
-        int gateId2 = await _gateInsertService.InsertGate(gateDto2);
+        int gateId1 = await _gateService.InsertGate(gateDto1);
+        int gateId2 = await _gateService.InsertGate(gateDto2);
 
         // Assert
         Assert.NotEqual(gateId1, gateId2);
@@ -200,7 +200,7 @@ public class GateInsertServiceTests : IDisposable
         );
 
         // Act
-        int result = await _gateInsertService.InsertGate(gateDto);
+        int result = await _gateService.InsertGate(gateDto);
 
         // Assert
         Assert.True(result > 0);

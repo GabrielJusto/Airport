@@ -8,24 +8,29 @@ using Microsoft.AspNetCore.Mvc;
 namespace Airport.Api.Controllers;
 
 [ApiController]
-[Route("gate")]
-public class GateController(GateService gateService) : ControllerBase
+[Route("gate-event")]
+public class GateEventController(
+    GateEventService gateEventService
+) : ControllerBase
 {
-    private readonly GateService _gateService = gateService;
-
+    private readonly GateEventService _gateEventService = gateEventService;
 
     [HttpPost("create")]
-    public async Task<IResult> CreateGate(GateInsertDto data)
+    public async Task<IResult> CreateGateEvent(GateEventInsertDto data)
     {
         try
         {
-            await _gateService.InsertGate(data);
+            int gateEventId = await _gateEventService.InsertGateEvent(data);
 
             return Results.Created();
         }
         catch(EntityNotFoundException e)
         {
             return Results.NotFound(e.Message);
+        }
+        catch(ValidationException e)
+        {
+            return Results.BadRequest(e.Errors);
         }
         catch(Exception)
         {

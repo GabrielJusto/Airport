@@ -10,9 +10,9 @@ public class GateEvent
     [Column("gateEventId")]
     public int GateEventId { get; set; }
 
-    [Column("StartDate")]
+    [Column("startDate")]
     public DateTimeOffset StartDate { get; set; }
-    [Column("EndDate")]
+    [Column("endDate")]
     public DateTimeOffset EndDate { get; set; }
     [Column("gateId")]
     public int GateId { get; set; }
